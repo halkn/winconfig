@@ -11,12 +11,12 @@ Set-PSReadlineOption -HistoryNoDuplicates
 Set-PSReadlineOption -AddToHistoryHandler {
     param ($command)
     switch -regex ($command) {
-        "^[a-z]$" {return $false}
-        "exit" {return $false}
-        "ls" {return $false}
-        "ll" {return $false}
-        "la" {return $false}
-        "dev" {return $false}
+        "^[a-z]$" { return $false }
+        "exit" { return $false }
+        "ls" { return $false }
+        "ll" { return $false }
+        "la" { return $false }
+        "dev" { return $false }
     }
     return $true
 }
@@ -77,9 +77,9 @@ Set-PSReadLineKeyHandler -Chord Ctrl+g -ScriptBlock {
 Set-Alias dev Get-FzfRepo
 
 function Get-FzfHistory {
-  $histf = (Get-PSReadlineOption).HistorySavePath
-  $out = $((Get-Content $histf)[(Get-Content $histf).length..0] | fzf)
-  $out | Invoke-Expression
+    $histf = (Get-PSReadlineOption).HistorySavePath
+    $out = $((Get-Content $histf) | fzf --tac)
+    $out | Invoke-Expression
 }
 Set-Alias h Get-FzfHistory
 
@@ -106,5 +106,5 @@ function prompt {
 }
 
 if (Get-Command starship -ErrorAction SilentlyContinue) {
-  Invoke-Expression (&starship init powershell)
+    Invoke-Expression (&starship init powershell)
 }
